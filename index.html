@@ -1,0 +1,278 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Student Result Analyzer - Manage student marks, calculate grades and analyze academic performance.">
+  <title>Student Result Analyzer</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-icon">SR</div>
+        <div>
+          <h2>Result Analyzer</h2>
+          <small>Academic Dashboard</small>
+        </div>
+      </div>
+
+      <nav>
+        <a href="#dashboard" class="nav-link active">▦ Dashboard</a>
+        <a href="#students" class="nav-link">♙ Students</a>
+        <a href="#analytics" class="nav-link">▤ Analytics</a>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="profile-avatar">A</div>
+        <div>
+          <strong>Administrator</strong>
+          <small>Academic Manager</small>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1>Student Result Analyzer</h1>
+          <p>Manage student results and monitor academic performance.</p>
+        </div>
+        <button class="primary-btn" id="addStudentTop">+ Add Student</button>
+      </header>
+
+      <!-- DASHBOARD -->
+      <section id="dashboard" class="section">
+        <div class="section-heading">
+          <div>
+            <h2>Dashboard Overview</h2>
+            <p>Academic performance at a glance</p>
+          </div>
+          <span class="session-badge">Academic Year 2026–27</span>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card">
+            <div class="stat-icon purple">♙</div>
+            <span>Total Students</span>
+            <h2 id="totalStudents">0</h2>
+            <small>Registered students</small>
+          </article>
+          <article class="stat-card">
+            <div class="stat-icon blue">▤</div>
+            <span>Class Average</span>
+            <h2 id="classAverage">0%</h2>
+            <small>Average percentage</small>
+          </article>
+          <article class="stat-card">
+            <div class="stat-icon green">★</div>
+            <span>Highest Score</span>
+            <h2 id="highestScore">0%</h2>
+            <small id="topStudent">No records yet</small>
+          </article>
+          <article class="stat-card">
+            <div class="stat-icon orange">✓</div>
+            <span>Pass Percentage</span>
+            <h2 id="passPercentage">0%</h2>
+            <small id="passCount">0 students passed</small>
+          </article>
+        </div>
+
+        <div class="content-grid">
+          <article class="panel">
+            <div class="panel-heading">
+              <div>
+                <h3>Recent Student Results</h3>
+                <p>Latest student records</p>
+              </div>
+              <a href="#students" class="text-link">View all →</a>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Student</th>
+                    <th>Roll No.</th>
+                    <th>Percentage</th>
+                    <th>Grade</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="recentTable"></tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-heading">
+              <div>
+                <h3>Grade Distribution</h3>
+                <p>Students by grade</p>
+              </div>
+            </div>
+            <div class="chart-box">
+              <canvas id="gradeChart"></canvas>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- STUDENTS -->
+      <section id="students" class="section">
+        <div class="section-heading">
+          <div>
+            <h2>Student Management</h2>
+            <p>Add, search, edit and manage academic records.</p>
+          </div>
+          <button class="primary-btn" id="addStudentBtn">+ Add Student</button>
+        </div>
+
+        <div class="panel">
+          <div class="toolbar">
+            <input type="search" id="searchInput"
+              placeholder="Search by name, roll number or department...">
+            <button class="secondary-btn" id="exportBtn">↓ Export CSV</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Roll No.</th>
+                  <th>Student Name</th>
+                  <th>Department</th>
+                  <th>Total Marks</th>
+                  <th>Percentage</th>
+                  <th>Grade</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="studentTable"></tbody>
+            </table>
+          </div>
+          <p class="table-footer" id="tableCount">0 students</p>
+        </div>
+      </section>
+
+      <!-- ANALYTICS -->
+      <section id="analytics" class="section">
+        <div class="section-heading">
+          <div>
+            <h2>Performance Analytics</h2>
+            <p>Analyze subject averages and student performance.</p>
+          </div>
+        </div>
+
+        <div class="content-grid analytics-grid">
+          <article class="panel">
+            <div class="panel-heading">
+              <div>
+                <h3>Subject-wise Average</h3>
+                <p>Average marks for each subject</p>
+              </div>
+            </div>
+            <div class="chart-box tall">
+              <canvas id="subjectChart"></canvas>
+            </div>
+          </article>
+          <article class="panel">
+            <div class="panel-heading">
+              <div>
+                <h3>Pass vs Fail</h3>
+                <p>Overall student result distribution</p>
+              </div>
+            </div>
+            <div class="chart-box tall">
+              <canvas id="passChart"></canvas>
+            </div>
+          </article>
+        </div>
+
+        <article class="panel insight-panel">
+          <h3>Performance Summary</h3>
+          <div id="insightContent">
+            Add student results to generate insights.
+          </div>
+        </article>
+      </section>
+
+      <footer>
+        Student Result Analyzer · Built with HTML, CSS & JavaScript
+      </footer>
+    </main>
+  </div>
+
+  <!-- ADD / EDIT STUDENT MODAL -->
+  <div class="modal-overlay" id="studentModal">
+    <div class="modal">
+      <div class="modal-heading">
+        <div>
+          <h2 id="modalTitle">Add New Student</h2>
+          <p>Enter student details and subject marks.</p>
+        </div>
+        <button class="close-btn" id="closeModal" aria-label="Close">×</button>
+      </div>
+
+      <form id="studentForm">
+        <input type="hidden" id="editId">
+        <div class="form-grid">
+          <label>
+            Student Name
+            <input type="text" id="studentName" required maxlength="60"
+              placeholder="Enter full name">
+          </label>
+          <label>
+            Roll Number
+            <input type="text" id="rollNumber" required maxlength="20"
+              placeholder="e.g. CSBS101">
+          </label>
+          <label class="full">
+            Department
+            <select id="department" required>
+              <option value="">Select department</option>
+              <option>Computer Science</option>
+              <option>Computer Science and Business Systems</option>
+              <option>Information Technology</option>
+              <option>Electronics and Communication</option>
+              <option>Electrical and Electronics</option>
+              <option>Mechanical Engineering</option>
+              <option>Civil Engineering</option>
+              <option>Other</option>
+            </select>
+          </label>
+        </div>
+
+        <h3 class="marks-heading">Subject Marks <small>(0–100 each)</small></h3>
+        <div class="form-grid">
+          <label>Mathematics
+            <input type="number" id="math" min="0" max="100" required>
+          </label>
+          <label>Programming
+            <input type="number" id="programming" min="0" max="100" required>
+          </label>
+          <label>Database Management
+            <input type="number" id="dbms" min="0" max="100" required>
+          </label>
+          <label>English
+            <input type="number" id="english" min="0" max="100" required>
+          </label>
+          <label class="full">Computer Networks
+            <input type="number" id="networks" min="0" max="100" required>
+          </label>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="secondary-btn" id="cancelModal">Cancel</button>
+          <button type="submit" class="primary-btn" id="saveBtn">Save Student</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
